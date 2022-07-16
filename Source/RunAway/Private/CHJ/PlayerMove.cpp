@@ -75,7 +75,10 @@ void UPlayerMove::Vertical(float v)
 	//¾ÕµÚ
 	//FVector dir = me->GetControlRotation().Quaternion().GetForwardVector();
 	//FVector dir = FRotationMatrix(me->GetControlRotation()).GetScaledAxis(EAxis::X);
-	FVector dir = me->GetControlRotation().Quaternion().GetForwardVector();
+	FRotator R = me->GetControlRotation();
+	FRotator YawRotation(0, R.Yaw, 0);
+
+	FVector dir = FRotationMatrix(YawRotation).GetScaledAxis(EAxis::X);
 
 	me->AddMovementInput(dir, v);
 
