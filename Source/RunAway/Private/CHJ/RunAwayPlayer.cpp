@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "CHJ/PlayerMove.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 
 // Sets default values
 ARunAwayPlayer::ARunAwayPlayer()
@@ -13,14 +14,17 @@ ARunAwayPlayer::ARunAwayPlayer()
 	PrimaryActorTick.bCanEverTick = true;
 	//플레이어라고 선언
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
+	cameraboom = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	cameraboom->SetupAttachment(GetCapsuleComponent());
+
+
 	//카메라 컴포넌트
 	RunCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("RunCamera"));
 	//루트 컴포넌트 자식으로
-	RunCamera->SetupAttachment(GetCapsuleComponent());
-	RunCamera->SetRelativeLocation(FVector(-30, 0, 50));
+	RunCamera->SetupAttachment(cameraboom);
 	//바디메쉬 등록
 	bodyMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("BodyMesh"));
-	bodyMesh->SetupAttachment(RunCamera);
+	bodyMesh->SetupAttachment(GetCapsuleComponent());
 
 	playerMove = CreateDefaultSubobject<UPlayerMove>(TEXT("PlayerMove"));
 

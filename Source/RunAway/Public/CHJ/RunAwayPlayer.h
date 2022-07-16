@@ -32,6 +32,9 @@ public:
 	UPROPERTY(EditAnywhere, Category=camera)
 	class UCameraComponent* RunCamera;
 
+	UPROPERTY(EditAnywhere, Category = camera)
+		class USpringArmComponent* cameraboom;
+
 	UPROPERTY(EditAnywhere, Category=mesh)
 	class USkeletalMeshComponent* bodyMesh;
 

@@ -35,6 +35,10 @@ public:
 	void Horizontal(float v);
 
 	void Vertical(float v);
+	void Turn(float v);
+	void LookUp(float v);
+	void Jump();
+	bool isFry;
 
 public:
 	UPROPERTY()

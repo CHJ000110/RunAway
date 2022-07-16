@@ -3,6 +3,8 @@
 
 #include "CHJ/PlayerMove.h"
 
+#include "GameFramework/PawnMovementComponent.h"
+
 // Sets default values for this component's properties
 UPlayerMove::UPlayerMove()
 {
@@ -11,6 +13,8 @@ UPlayerMove::UPlayerMove()
 	PrimaryComponentTick.bCanEverTick = true;
 	bWantsInitializeComponent = true;
 	// ...
+
+	isFry = false;
 }
 
 
@@ -39,22 +43,56 @@ void UPlayerMove::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+	isFry = me->GetMovementComponent()->IsFalling();
 }
 
 void UPlayerMove::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &UPlayerMove::Vertical);
-	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &UPlayerMove::Horizontal);
+	if(isFry)
+	{
+		
+	}
+	else 
+	{
+		PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &UPlayerMove::Vertical);
+		PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &UPlayerMove::Horizontal);
+	}
+	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &UPlayerMove::Turn);
+	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &UPlayerMove::LookUp);
+	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed ,this, &UPlayerMove::Jump);
 }
 
 void UPlayerMove::Horizontal(float v)
 {
 	//аб©Л
+	FVector dir = me->GetControlRotation().Quaternion().GetRightVector();
+
+	me->AddMovementInput(dir, v);
 }
 
 void UPlayerMove::Vertical(float v)
 {
 	//╬у╣з
+	//FVector dir = me->GetControlRotation().Quaternion().GetForwardVector();
+	//FVector dir = FRotationMatrix(me->GetControlRotation()).GetScaledAxis(EAxis::X);
+	FVector dir = me->GetControlRotation().Quaternion().GetForwardVector();
 
+	me->AddMovementInput(dir, v);
+
+}
+
+void UPlayerMove::Turn(float v)
+{
+	me->AddControllerYawInput(v);
+}
+
+void UPlayerMove::LookUp(float v)
+{
+	me->AddControllerPitchInput(v);
+}
+
+void UPlayerMove::Jump()
+{
+	me->Jump();
 }
 
