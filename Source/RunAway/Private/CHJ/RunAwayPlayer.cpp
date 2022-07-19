@@ -29,7 +29,7 @@ ARunAwayPlayer::ARunAwayPlayer()
 	playerMove = CreateDefaultSubobject<UPlayerMove>(TEXT("PlayerMove"));
 
 
-	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh(TEXT("SkeletalMesh'/Game/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin'"));
+	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh(TEXT("SkeletalMesh'/Game/RunAway/Develop/chj/Animation/Ch06_nonPBR.Ch06_nonPBR'"));
 
 	if (tempMesh.Succeeded())
 	{
