@@ -27,8 +27,14 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+
+	void OnTriggerEnter( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep ,const FHitResult& SweepResult);
+	/** Delegate for notification of end of overlap with a specific component */
 public:
+	UPROPERTY(EditAnywhere, Category = collison)
+		class UBoxComponent* collision;
+
+
 	UPROPERTY(EditAnywhere, Category=camera)
 	class UCameraComponent* RunCamera;
 
@@ -40,6 +46,18 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = playermove)
 	class UPlayerMove* playerMove;
-	
+
+	void DoorOpen();
+
+	void DoorKey();
+
+	//UPROPERTY()
+	//class UTestEnemy* monster;
+
+	UPROPERTY()
+	class ATestDoor* Door;
+
+	bool doorKey = false;
+
 	FPlayerInputDelegate OnInputDelegate;
 };

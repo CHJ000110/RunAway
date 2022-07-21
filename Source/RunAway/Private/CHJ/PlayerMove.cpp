@@ -60,6 +60,8 @@ void UPlayerMove::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &UPlayerMove::Turn);
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &UPlayerMove::LookUp);
 	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed ,this, &UPlayerMove::Jump);
+	PlayerInputComponent->BindAction(TEXT("Crouch"), IE_Pressed, this, &UPlayerMove::Crouch);
+	PlayerInputComponent->BindAction(TEXT("Crouch"), IE_Released, this, &UPlayerMove::UnCrouch);
 }
 
 void UPlayerMove::Horizontal(float v)
@@ -97,5 +99,15 @@ void UPlayerMove::LookUp(float v)
 void UPlayerMove::Jump()
 {
 	me->Jump();
+}
+
+void UPlayerMove::Crouch()
+{
+	me->Crouch();
+}
+
+void UPlayerMove::UnCrouch()
+{
+	me->UnCrouch();
 }
 

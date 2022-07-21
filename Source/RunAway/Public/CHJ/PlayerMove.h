@@ -38,6 +38,8 @@ public:
 	void Turn(float v);
 	void LookUp(float v);
 	void Jump();
+	void Crouch();
+	void UnCrouch();
 	bool isFry;
 
 public:

@@ -4,6 +4,9 @@
 #include "CHJ/RunAwayPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "CHJ/PlayerMove.h"
+#include "CHJ/TestDoor.h"
+#include "CHJ/TestEnemy.h"
+#include "Components/BoxComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -17,6 +20,10 @@ ARunAwayPlayer::ARunAwayPlayer()
 	cameraboom = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	cameraboom->SetupAttachment(GetCapsuleComponent());
 
+	// BoxCollision  컴포넌트 등록
+	collision = CreateDefaultSubobject<UBoxComponent>(TEXT("Collision"));
+
+	collision->SetCollisionProfileName(TEXT("BlockAll"));
 
 	//카메라 컴포넌트
 	RunCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("RunCamera"));
@@ -28,6 +35,7 @@ ARunAwayPlayer::ARunAwayPlayer()
 
 	playerMove = CreateDefaultSubobject<UPlayerMove>(TEXT("PlayerMove"));
 
+	Door = Cast<ATestDoor>(GetOwner());
 
 	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh(TEXT("SkeletalMesh'/Game/RunAway/Develop/chj/Animation/Ch06_nonPBR.Ch06_nonPBR'"));
 
@@ -41,7 +49,8 @@ ARunAwayPlayer::ARunAwayPlayer()
 void ARunAwayPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	collision->OnComponentBeginOverlap.AddDynamic(this, &ARunAwayPlayer::OnTriggerEnter);
 }
 
 // Called every frame
@@ -57,5 +66,34 @@ void ARunAwayPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	OnInputDelegate.Broadcast(PlayerInputComponent);
+
+	PlayerInputComponent->BindAction(TEXT("DoorOpen"), IE_Pressed, this, &ARunAwayPlayer::DoorOpen);
+	PlayerInputComponent->BindAction(TEXT("DoorOpen"), IE_Released, this, &ARunAwayPlayer::DoorKey);
+}
+
+void ARunAwayPlayer::OnTriggerEnter(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor == Door)
+	{
+		UE_LOG(LogTemp, Log, TEXT("door"));
+		if (doorKey)
+		{
+			Door->Open();
+			UE_LOG(LogTemp, Log, TEXT("ooooo"));
+		}
+	}
+}
+
+void ARunAwayPlayer::DoorOpen()
+{
+	doorKey = true;
+
+	UE_LOG(LogTemp, Log, TEXT("doorKey"));
+}
+
+void ARunAwayPlayer::DoorKey()
+{
+	doorKey = false;;
+	UE_LOG(LogTemp, Log, TEXT("OPEN2"));
 }
 
