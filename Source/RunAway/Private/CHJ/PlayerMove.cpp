@@ -104,10 +104,12 @@ void UPlayerMove::Jump()
 void UPlayerMove::Crouch()
 {
 	me->Crouch();
+	M_crouch1 = true;
 }
 
 void UPlayerMove::UnCrouch()
 {
 	me->UnCrouch();
+	M_crouch1 = false;
 }
 

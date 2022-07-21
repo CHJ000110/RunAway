@@ -42,6 +42,14 @@ public:
 	void UnCrouch();
 	bool isFry;
 
+	UPROPERTY(EditAnywhere, BlueprintGetter=Getcrouch1)
+	bool M_crouch1 = false;
+	UFUNCTION(BlueprintGetter)
+		bool Getcrouch1()
+	{
+		return M_crouch1;
+	}
+	
 public:
 	UPROPERTY()
 	class ARunAwayPlayer* me;

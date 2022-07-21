@@ -31,14 +31,14 @@ public:
 	void OnTriggerEnter( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep ,const FHitResult& SweepResult);
 	/** Delegate for notification of end of overlap with a specific component */
 public:
-	UPROPERTY(EditAnywhere, Category = collison)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = collison)
 		class UBoxComponent* collision;
 
 
-	UPROPERTY(EditAnywhere, Category=camera)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=camera)
 	class UCameraComponent* RunCamera;
 
-	UPROPERTY(EditAnywhere, Category = camera)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = camera)
 		class USpringArmComponent* cameraboom;
 
 	UPROPERTY(EditAnywhere, Category=mesh)
@@ -57,6 +57,7 @@ public:
 	UPROPERTY()
 	class ATestDoor* Door;
 
+	UPROPERTY(EditAnywhere, Category = key)
 	bool doorKey = false;
 
 	FPlayerInputDelegate OnInputDelegate;
